@@ -15,6 +15,11 @@ namespace Objects.Parts.Cables.PowerSocket
             return 0;
         }
 
+        public override int GetAdapterNumber()
+        {
+            return 0;
+        }
+
         public override GameObject GetHandObject()
         {
             return Instantiate(c14Model);

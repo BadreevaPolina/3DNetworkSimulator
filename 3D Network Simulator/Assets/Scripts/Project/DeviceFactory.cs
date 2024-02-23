@@ -5,6 +5,8 @@ using GNS.ProjectHandling.Project;
 using Objects.Devices.Common;
 using Objects.Devices.Hub.SmallHub;
 using Objects.Devices.PC.Laptop;
+using Objects.Devices.Switch.MiniSwitch;
+using Objects.Devices.Router.MiniRouter;
 using Objects.Env.Table;
 using Objects.Parts.Wire;
 using Project.Json;
@@ -21,6 +23,8 @@ namespace Project
         [SerializeField] private GameObject laptopPrefab;
         [SerializeField] private GameObject hubPrefab;
         [SerializeField] private GameObject tablePrefab;
+        [SerializeField] private GameObject switchPrefab;
+        [SerializeField] private GameObject routerPrefab;
         [SerializeField] private Transform floor;
 
         public void Start()
@@ -31,6 +35,8 @@ namespace Project
             {
                 { nameof(Laptop), laptopPrefab },
                 { nameof(SmallHub), hubPrefab },
+                { nameof(MiniSwitch), switchPrefab },
+                { nameof(MiniRouter), routerPrefab },
                 { nameof(Table), tablePrefab },
             };
         }

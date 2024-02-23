@@ -62,11 +62,11 @@ namespace GNS.ProjectHandling.Node
             Project.StopNode(this);
         }
 
-        public void ConnectTo(GnsNode other, int selfAdapterID, int otherAdapterID)
+        public void ConnectTo(GnsNode other, int selfPortID, int otherPortID, int selfAdapterID, int otherAdapterID)
         {
-            var linkJson = "{\"nodes\": [{\"adapter_number\": 0, \"node_id\": \"" + ID + "\", \"port_number\": " +
-                           selfAdapterID + "}, {\"adapter_number\": 0, \"node_id\": \"" + other.ID +
-                           "\", \"port_number\": " + otherAdapterID + "}]}";
+            var linkJson = "{\"nodes\": [{\"adapter_number\": " + selfAdapterID + ", \"node_id\": \"" + ID + "\", \"port_number\": " +
+                           selfPortID + "}, {\"adapter_number\": " + otherAdapterID + ", \"node_id\": \"" + other.ID +
+                           "\", \"port_number\": " + otherPortID + "}]}";
 
             void Callback(GnsJLink link)
             {
@@ -77,18 +77,22 @@ namespace GNS.ProjectHandling.Node
             Project.AddLink(linkJson, this, other, Callback);
         }
 
-        public void DisconnectFrom(GnsNode other, int selfAdapterID, int otherAdapterID)
+        public void DisconnectFrom(GnsNode other, int selfPortID, int otherPortID, int selfAdapterID, int otherAdapterID)
         {
             var selectedLink = Links.Find(a =>
                 (a.nodes[0].node_id == ID &&
                  a.nodes[1].node_id == other.ID &&
-                 a.nodes[0].port_number == selfAdapterID &&
-                 a.nodes[1].port_number == otherAdapterID)
+                 a.nodes[0].port_number == selfPortID &&
+                 a.nodes[1].port_number == otherPortID &&
+                 a.nodes[0].adapter_number == selfAdapterID &&
+                 a.nodes[1].adapter_number == otherAdapterID)
                 ||
                 (a.nodes[1].node_id == ID &&
                  a.nodes[0].node_id == other.ID &&
-                 a.nodes[1].port_number == selfAdapterID &&
-                 a.nodes[0].port_number == otherAdapterID)
+                 a.nodes[0].port_number == selfPortID &&
+                 a.nodes[1].port_number == otherPortID &&
+                 a.nodes[0].adapter_number == selfAdapterID &&
+                 a.nodes[1].adapter_number == otherAdapterID)
             );
 
 

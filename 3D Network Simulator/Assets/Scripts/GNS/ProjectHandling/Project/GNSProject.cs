@@ -56,6 +56,9 @@ namespace GNS.ProjectHandling.Project
         {
             var notification = "Creating node " + name;
             var data = $"{{\"name\": \"{name}\", \"node_type\": \"{type}\", \"compute_id\": \"local\"}}";
+            if (type == "dynamips"){
+                data = $"{{\"name\": \"{name}\", \"node_type\": \"{type}\", \"compute_id\": \"local\", \"properties\": {{ \"platform\": \"c7200\", \"image\": \"c7200-adventerprisek9-mz.152-4.M7.image\",  \"ram\": 512, \"slot0\": \"C7200-IO-FE\", \"slot1\": \"PA-FE-TX\", \"slot2\": \"PA-FE-TX\", \"slot3\": \"PA-FE-TX\" }}}}";
+            }
 
             string GetUrl()
             {

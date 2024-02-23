@@ -25,6 +25,7 @@ namespace UI.Terminal
         [SerializeField] private ScrollRect scrollRect;
         [SerializeField] private GameObject messageList;
         [SerializeField] private TextMeshProUGUI titleText;
+        [SerializeField] private TextMeshProUGUI preText;
         [SerializeField] private Button closeButton;
         private readonly Queue<string> _messages = new();
         private Canvas _baseCanvas;
@@ -67,6 +68,12 @@ namespace UI.Terminal
         {
             titleText.text = title;
         }
+
+        public void SetPre(string pre)
+        {
+            preText.text = pre;
+        }
+
 
         public void Initialize(Canvas screenCanvas)
         {

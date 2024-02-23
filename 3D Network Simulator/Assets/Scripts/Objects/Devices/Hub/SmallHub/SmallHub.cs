@@ -27,13 +27,17 @@ namespace Objects.Devices.Hub.SmallHub
                     Node.ConnectTo(
                         other.GetParent().GetComponent<ADevice>().Node,
                         en.GetPortNumber(),
-                        other.GetPortNumber()
+                        other.GetPortNumber(),
+                        en.GetAdapterNumber(),
+                        other.GetAdapterNumber()
                     );
                 en.SingleDisconnectEvent += other =>
                     Node.DisconnectFrom(
                         other.GetParent().GetComponent<ADevice>().Node,
                         en.GetPortNumber(),
-                        other.GetPortNumber()
+                        other.GetPortNumber(),
+                        en.GetAdapterNumber(),
+                        other.GetAdapterNumber()
                     );
             }
         }

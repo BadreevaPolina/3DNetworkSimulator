@@ -8,10 +8,16 @@ namespace Objects.Parts.Cables.LAN
         [SerializeField] private GameObject en;
         [SerializeField] private Material cableMaterial;
         [SerializeField] private int portID;
+        [SerializeField] private int adapterID;
 
         public override int GetPortNumber()
         {
             return portID;
+        }
+
+        public override int GetAdapterNumber()
+        {
+            return adapterID;
         }
 
         public override GameObject GetHandObject()

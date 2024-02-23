@@ -33,6 +33,7 @@ namespace Objects.Parts.Wire
         public abstract WireType GetInputType();
         public abstract WireType GetOutputType();
         public abstract int GetPortNumber();
+        public abstract int GetAdapterNumber();
 
         // Methods
         public GameObject GetParent()

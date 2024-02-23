@@ -81,8 +81,11 @@ namespace Wire
 
             // Fill Verts
             var i = 0;
-            var prev = points[0];
-            foreach (var go in points)
+            
+            if (points.Count != 0){
+            	var prev = points[0];
+
+                foreach (var go in points)
             {
                 var essenceRotation = Quaternion.FromToRotation(new Vector3(1, 0, 0), go - prev);
 
@@ -103,6 +106,7 @@ namespace Wire
                 indices[i * 6 + 3] = i + 5;
                 indices[i * 6 + 4] = i + 1;
                 indices[i * 6 + 5] = i + 4;
+            }
             }
 
             _mesh.vertices = vertices;

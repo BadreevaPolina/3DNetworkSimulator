@@ -1,19 +1,24 @@
 using System;
 using GNS.ProjectHandling.Node;
 using GNS.ProjectHandling.Project;
+using GNS3.ProjectHandling.Project;
 using GNS3.GNSConsole;
 using Objects.Devices.Common;
 using Objects.Devices.Common.ConsoleDevice;
+using Objects.Parts.Controllers.Scripts;
 using Objects.Parts.Wire;
 using UI.Console;
 using UI.Terminal;
 using UnityEngine;
 
-namespace Objects.Devices.PC.Laptop
+namespace Objects.Devices.Router.MiniRouter
 {
-    public class Laptop : AConsoleDevice
+    public class MiniRouter : AConsoleDevice
     {
-        public AWire ethernetPort;
+        [SerializeField] private AWire[] ethernetCables = new AWire[4];
+        [SerializeField] private Switchable powerIndicator;
+        [SerializeField] private AWire powerPort;
+
 
         [SerializeField] private GameObject uiTerminalPrefab;
         [SerializeField] private Canvas parentCanvas;
@@ -29,30 +34,28 @@ namespace Objects.Devices.PC.Laptop
             _uiTerminal = Instantiate(uiTerminalPrefab, parentCanvas.transform).GetComponent<TerminalManager>();
             _uiTerminal.Initialize(screenCanvas);
 
-            ethernetPort.SingleConnectEvent += Connect;
-            ethernetPort.SingleDisconnectEvent += Disconnect;
-        }
-
-        private void Connect(AWire other)
-        {
-            Node.ConnectTo(
-                other.GetParent().GetComponent<ADevice>().Node,
-                ethernetPort.GetPortNumber(),
-                other.GetPortNumber(),
-                ethernetPort.GetAdapterNumber(),
-                other.GetAdapterNumber()
-            );
-        }
-
-        private void Disconnect(AWire other)
-        {
-            Node.DisconnectFrom(
-                other.GetParent().GetComponent<ADevice>().Node,
-                ethernetPort.GetPortNumber(),
-                other.GetPortNumber(),
-                ethernetPort.GetAdapterNumber(),
-                other.GetAdapterNumber()
-            );
+            powerPort.ConnectEvent += Enable;
+            powerPort.DisconnectEvent += Disable;
+            
+            foreach (var en in ethernetCables)
+            {
+                en.SingleConnectEvent += other =>
+                    Node.ConnectTo(
+                        other.GetParent().GetComponent<ADevice>().Node,
+                        en.GetPortNumber(),
+                        other.GetPortNumber(),
+                        en.GetAdapterNumber(),
+                        other.GetAdapterNumber()
+                    );
+                en.SingleDisconnectEvent += other =>
+                    Node.DisconnectFrom(
+                        other.GetParent().GetComponent<ADevice>().Node,
+                        en.GetPortNumber(),
+                        other.GetPortNumber(),
+                        en.GetAdapterNumber(),
+                        other.GetAdapterNumber()
+                    );
+            }
         }
 
         public override void OpenConsole()
@@ -76,25 +79,38 @@ namespace Objects.Devices.PC.Laptop
                 _console = Node.GetTerminal();
                 _uiTerminal.LinkTo(_console);
                 _uiTerminal.SetTitle(Node.Name);
-                _uiTerminal.SetPre("PC>");
+                _uiTerminal.SetPre("Router>");
             }
 
             _uiTerminal.Show();
         }
 
-
-        public override void CreateNode(GnsProject parent)
+        private void Enable()
         {
-            Node = new GnsVpcsNode(parent, "Laptop");
+            powerIndicator.SwitchOn();
             Node.Start();
         }
 
+        private void Disable()
+        {
+            powerIndicator.SwitchOff();
+            Node.Stop();
+        }
+
+
+        public override void CreateNode(GnsProject parent)
+        {
+            Node = new GnsSRouterNode(parent, "Mini router");
+            Node.Start();
+        }
+        
         public override AWire GetWire(int adapterNumber, int portNumber)
         {
-            if (adapterNumber != 0 || portNumber != 0)
-                throw new ArgumentException("Laptop has only 1 port");
+            if (adapterNumber > 3 || portNumber > 3)
+                throw new ArgumentException("Mini router has only 4 ports");
             
-            return ethernetPort;
+            return ethernetCables[portNumber];
         }
+
     }
 }

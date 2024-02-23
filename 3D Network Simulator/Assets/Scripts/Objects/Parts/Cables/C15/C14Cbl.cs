@@ -14,6 +14,11 @@ namespace Objects.Parts.Cables.C15
             return 0;
         }
 
+        public override int GetAdapterNumber()
+        {
+            return 0;
+        }
+
         public override GameObject GetHandObject()
         {
             return Instantiate(plug);
