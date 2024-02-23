@@ -426,3 +426,4 @@ MonoBehaviour:
   en: {fileID: 919132149155446097, guid: 6e11f690c19518b42ba8a67fd6c6b6aa, type: 3}
   cableMaterial: {fileID: 2100000, guid: 5648489ac371946458e4db89bf73a4b0, type: 2}
   portID: 0
+  adapterID: 0

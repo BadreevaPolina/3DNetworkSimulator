@@ -206,6 +206,7 @@ MonoBehaviour:
   scrollRect: {fileID: 4382160957383123992}
   messageList: {fileID: 4382160956662956454}
   titleText: {fileID: 6028437461518411638}
+  preText: {fileID: 4382160956813877804}
   closeButton: {fileID: 9107889619160225381}
 --- !u!1 &2866712141691397134
 GameObject:
@@ -735,7 +736,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: PC1>
+  m_text: Pre
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 21a4c45874232234f86d1bea92dea195, type: 2}
   m_sharedMaterial: {fileID: 2340441903412165070, guid: 21a4c45874232234f86d1bea92dea195, type: 2}

@@ -482,6 +482,8 @@ MonoBehaviour:
   laptopPrefab: {fileID: 8475686634712828776, guid: 6ea708a3ef43ccd459eff9db4cea3b81, type: 3}
   hubPrefab: {fileID: 3425930015767318780, guid: 91af60db2a441394d9587cedb856f376, type: 3}
   tablePrefab: {fileID: 4082927271240524180, guid: 77cb36de47ce9db43a2c3d5b714d2623, type: 3}
+  switchPrefab: {fileID: 8272148722560722652, guid: d0f50949492b6e84daf2c8e6e357ba34, type: 3}
+  routerPrefab: {fileID: 6156882089326066718, guid: 346680069ad901151b0798893534c267, type: 3}
   floor: {fileID: 1873362235}
 --- !u!4 &613073982
 Transform:
@@ -1310,6 +1312,8 @@ MonoBehaviour:
   devices:
   - {fileID: 3526005316320735901, guid: a2433389155d44940a7ad764e29d3120, type: 3}
   - {fileID: 4566983166976523654, guid: b876bb4278551274392ebad93121af1b, type: 3}
+  - {fileID: 9205380758340120382, guid: 276dc3a656a10b18ca839d401ffd4bf3, type: 3}
+  - {fileID: 897758708626145652, guid: f95668796f4e4c35cb6cfafd229db2cf, type: 3}
   - {fileID: 2336986158620154863, guid: e13de4b5cd48967449576ecfd29b19a5, type: 3}
   cardPrefab: {fileID: 4443306653076494465, guid: cec88629c94644b4aaae76668da7185d, type: 3}
   cardHolder: {fileID: 304176186}
