@@ -20,13 +20,13 @@ namespace Objects.Devices.PC.Laptop
         [SerializeField] private Canvas screenCanvas;
 
         private IEventConsole _console;
-        private TerminalManager _uiTerminal;
+        private TerminalManagerLaptop _uiTerminal;
 
         public void Start()
         {
             parentCanvas = GameObject.FindWithTag("UI").GetComponent<Canvas>();
 
-            _uiTerminal = Instantiate(uiTerminalPrefab, parentCanvas.transform).GetComponent<TerminalManager>();
+            _uiTerminal = Instantiate(uiTerminalPrefab, parentCanvas.transform).GetComponent<TerminalManagerLaptop>();
             _uiTerminal.Initialize(screenCanvas);
 
             ethernetPort.SingleConnectEvent += Connect;
@@ -76,7 +76,7 @@ namespace Objects.Devices.PC.Laptop
                 _console = Node.GetTerminal();
                 _uiTerminal.LinkTo(_console);
                 _uiTerminal.SetTitle(Node.Name);
-                _uiTerminal.SetPre("PC>");
+                _uiTerminal.SetPre("VPCS>");
             }
 
             _uiTerminal.Show();
@@ -93,7 +93,7 @@ namespace Objects.Devices.PC.Laptop
         {
             if (adapterNumber != 0 || portNumber != 0)
                 throw new ArgumentException("Laptop has only 1 port");
-            
+
             return ethernetPort;
         }
     }

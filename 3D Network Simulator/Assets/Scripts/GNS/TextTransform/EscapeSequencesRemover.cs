@@ -7,7 +7,16 @@ namespace Text
     {
         public string Process(string input)
         {
-            return Regex.Replace(input, "\\[\\dm", "");
+            return RemoveControlCharacters(input);
+        }
+
+        public string RemoveControlCharacters(string input)
+        {
+            string cleanedInput = Regex.Replace(input, "\\[\\dm", "");
+            cleanedInput = Regex.Replace(cleanedInput, "\u001B", "");
+            cleanedInput = Regex.Replace(cleanedInput, "\u0007", "");
+            cleanedInput = Regex.Replace(cleanedInput, "\u0008", "");
+            return cleanedInput;
         }
     }
 }

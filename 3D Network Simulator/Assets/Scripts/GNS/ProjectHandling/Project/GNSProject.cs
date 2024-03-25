@@ -44,7 +44,7 @@ namespace GNS.ProjectHandling.Project
             _gnsNodes = new List<GnsNode>();
             _globalProject = project;
             Name = name;
-            
+
             _serverAddress = $"http://{config.Address}:{config.Port}/v2/";
         }
 
@@ -55,9 +55,14 @@ namespace GNS.ProjectHandling.Project
         public void CreateNode<T>(string name, string type, Action<T> onCreate, GnsNode self) where T : GnsJNode
         {
             var notification = "Creating node " + name;
-            var data = $"{{\"name\": \"{name}\", \"node_type\": \"{type}\", \"compute_id\": \"local\"}}";
-            if (type == "dynamips"){
-                data = $"{{\"name\": \"{name}\", \"node_type\": \"{type}\", \"compute_id\": \"local\", \"properties\": {{ \"platform\": \"c7200\", \"image\": \"c7200-adventerprisek9-mz.152-4.M7.image\",  \"ram\": 512, \"slot0\": \"C7200-IO-FE\", \"slot1\": \"PA-FE-TX\", \"slot2\": \"PA-FE-TX\", \"slot3\": \"PA-FE-TX\" }}}}";
+            string data;
+            if (type == "dynamips")
+            {
+                data = $"{{\"name\": \"{name}\", \"node_type\": \"{type}\", \"compute_id\": \"local\", \"properties\": {{ \"platform\": \"c7200\", \"image\": \"c7200-adventerprisek9-mz.124-24.T5.image\",  \"nvram\": 1024, \"ram\": 512, \"slot0\": \"C7200-IO-FE\", \"slot1\": \"PA-FE-TX\", \"slot2\": \"PA-FE-TX\", \"slot3\": \"PA-FE-TX\",\"auto_delete_disks\": true, \"disk0\": 0, \"disk1\": 0 }}}}";
+            }
+            else
+            {
+                data = $"{{\"name\": \"{name}\", \"node_type\": \"{type}\", \"compute_id\": \"local\"}}";
             }
 
             string GetUrl()
@@ -170,7 +175,7 @@ namespace GNS.ProjectHandling.Project
             );
 
             _dispatcher.EnqueueActionWithNotification(task, notification, 4);
-            
+
         }
 
         public void AddLink(string linkJson, GnsNode self, GnsNode other, Action<GnsJLink> callback)
@@ -187,7 +192,7 @@ namespace GNS.ProjectHandling.Project
             );
 
             _dispatcher.EnqueueActionWithNotification(task, notification, 4);
-            
+
             _globalProject.SaveDevices();
         }
 

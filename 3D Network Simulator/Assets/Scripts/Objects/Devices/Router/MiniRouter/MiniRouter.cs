@@ -25,18 +25,18 @@ namespace Objects.Devices.Router.MiniRouter
         [SerializeField] private Canvas screenCanvas;
 
         private IEventConsole _console;
-        private TerminalManager _uiTerminal;
+        private TerminalManagerRouter _uiTerminal;
 
         public void Start()
         {
             parentCanvas = GameObject.FindWithTag("UI").GetComponent<Canvas>();
 
-            _uiTerminal = Instantiate(uiTerminalPrefab, parentCanvas.transform).GetComponent<TerminalManager>();
+            _uiTerminal = Instantiate(uiTerminalPrefab, parentCanvas.transform).GetComponent<TerminalManagerRouter>();
             _uiTerminal.Initialize(screenCanvas);
 
             powerPort.ConnectEvent += Enable;
             powerPort.DisconnectEvent += Disable;
-            
+
             foreach (var en in ethernetCables)
             {
                 en.SingleConnectEvent += other =>
@@ -103,12 +103,12 @@ namespace Objects.Devices.Router.MiniRouter
             Node = new GnsSRouterNode(parent, "Mini router");
             Node.Start();
         }
-        
+
         public override AWire GetWire(int adapterNumber, int portNumber)
         {
             if (adapterNumber > 3 || portNumber > 3)
                 throw new ArgumentException("Mini router has only 4 ports");
-            
+
             return ethernetCables[portNumber];
         }
 

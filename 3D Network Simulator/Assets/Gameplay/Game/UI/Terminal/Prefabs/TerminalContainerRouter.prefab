@@ -145,9 +145,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4598211918557477490}
   - component: {fileID: 2723807683393293011}
-  - component: {fileID: 3299423419958350448}
+  - component: {fileID: 3990482277278547393}
   m_Layer: 0
-  m_Name: TerminalContainer
+  m_Name: TerminalContainerRouter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -187,7 +187,7 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 1
---- !u!114 &3299423419958350448
+--- !u!114 &3990482277278547393
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -196,7 +196,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1502494338806491635}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fad5df97826d98144b5153d97b8a7061, type: 3}
+  m_Script: {fileID: 11500000, guid: 82b743bd87e43016f92ecc0ca4d1ae04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   directoryLine: {fileID: 1709431161148854176, guid: 61eb2e6d62b2398468b4e789113e9c63, type: 3}
@@ -705,7 +705,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 24.205, y: 0}
+  m_AnchoredPosition: {x: 19.404999, y: 0}
   m_SizeDelta: {x: 0, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4382160956813877805

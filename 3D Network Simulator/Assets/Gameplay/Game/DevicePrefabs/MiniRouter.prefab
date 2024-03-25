@@ -785,7 +785,7 @@ MonoBehaviour:
   - {fileID: 8947351543967486445}
   powerIndicator: {fileID: 9208471600763933923}
   powerPort: {fileID: 5640887545173281708}
-  uiTerminalPrefab: {fileID: 1502494338806491635, guid: a4745fa91a0b93e47a7833a66364ec34, type: 3}
+  uiTerminalPrefab: {fileID: 1502494338806491635, guid: 24c17ed922081614781927151f0c3432, type: 3}
   parentCanvas: {fileID: 0}
   screenCanvas: {fileID: 3096524826548440870}
 --- !u!65 &2574432695210209559

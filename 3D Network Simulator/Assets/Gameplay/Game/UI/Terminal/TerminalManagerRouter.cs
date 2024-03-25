@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 using GNS3.GNSConsole;
 using Interfaces.TextTransformer;
 using Objects.Player.Scripts;
@@ -15,7 +16,7 @@ namespace UI.Terminal
     * Creates the process and uses it's input and output with unity
     */
     [RequireComponent(typeof(CanvasGroup))]
-    public class TerminalManager : MonoBehaviour
+    public class TerminalManagerRouter : MonoBehaviour
     {
         private const int MessageHeight = 25;
         [SerializeField] private GameObject directoryLine;
@@ -36,6 +37,7 @@ namespace UI.Terminal
 
         private IEventConsole _console;
         private string _lastInput = "";
+        private string currentDisplayMessageLine = "";
         private PlayerMovement _playerMovement;
         private ITextTransformer _textTransformer;
         private Canvas ScreenCanvas { get; set; }
@@ -43,7 +45,7 @@ namespace UI.Terminal
         private void OnGUI()
         {
             InstantiateMessages();
-
+            
             if (terminalInput.isFocused && terminalInput.text != "" && Input.GetKeyDown(KeyCode.Return))
             {
                 var userInput = terminalInput.text;
@@ -118,11 +120,23 @@ namespace UI.Terminal
             {
                 var stringText = _messages.Dequeue();
 
-                if (stringText.Trim().EndsWith(">"))
+                if (stringText.Contains("Router"))
                 {
                     userInputLine.GetComponentsInChildren<TextMeshProUGUI>()[0].text = stringText;
                     userInputLine.SetActive(true);
                     continue;
+                }
+                else
+                {
+                    if (stringText.Trim().EndsWith("OFF")){
+                        userInputLine.SetActive(true);
+                        _console.SendMessage("\r");
+                        continue;
+                    }
+                    if (stringText.Contains("--More--")){
+                        stringText = "";
+                        _console.SendMessage("  ");
+                    }
                 }
 
                 var msg = Instantiate(responseLine, messageList.transform);
@@ -146,6 +160,7 @@ namespace UI.Terminal
         {
             var msg = Instantiate(directoryLine, messageList.transform);
             msg.transform.SetSiblingIndex(messageList.transform.childCount - 1);
+            msg.GetComponentsInChildren<TextMeshProUGUI>()[0].text = preText.text;
             msg.GetComponentsInChildren<TextMeshProUGUI>()[1].text = userInput;
         }
 
@@ -162,12 +177,38 @@ namespace UI.Terminal
         {
             var stringText = Encoding.ASCII.GetString(text);
 
-            foreach (var line in stringText.Split('\n'))
+            foreach (var character in stringText)
             {
-                if (!ValidateLine(line)) continue;
-                _messages.Enqueue(ProcessText(line));
+                currentDisplayMessageLine += character;
+ 
+                if ((currentDisplayMessageLine.Length > 85 && character == ' ') || character =='\n')
+                {
+                    if (character == ' ') currentDisplayMessageLine += "\n";
+                    DisplayMessageLine();
+                }
             }
 
+            if (stringText.EndsWith(": ") && (currentDisplayMessageLine != string.Empty))
+            {
+                currentDisplayMessageLine += "\r\n";
+                DisplayMessageLine();
+            }
+            if ((currentDisplayMessageLine.Contains("Router") &&
+             (new[] { ">", ")", "#" }.Any(currentDisplayMessageLine.Contains))) || 
+             currentDisplayMessageLine.Contains("--More--"))
+            {
+                DisplayMessageLine();
+            }
+        }
+
+        private void DisplayMessageLine()
+        {
+            if (ValidateLine(currentDisplayMessageLine))
+            {
+                _messages.Enqueue(ProcessText(currentDisplayMessageLine.Trim()));
+            }
+            
+            currentDisplayMessageLine = string.Empty;
         }
 
         private bool ValidateLine(string line)
@@ -225,7 +266,7 @@ namespace UI.Terminal
         private void Send(string msg)
         {
             _console.SendMessage(msg);
-            _console.SendMessage("\n");
+            _console.SendMessage("\r\n");
         }
 
         private string ProcessText(string response)
